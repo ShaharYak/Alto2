@@ -93,11 +93,11 @@ public class RepositoriesService {
     }
 
     private RepositoryResponse createRepositoryResponse(JSONObject item) {
-        return new RepositoryResponse(item.getString(FULL_NAME),
-                                      item.getString(HTML_URL),
-                                      item.getString(DESCRIPTION),
-                                      item.getInt(FORKS),
-                                      item.getBoolean(PRIVATE));
+        return new RepositoryResponse(item.optString(FULL_NAME),
+                                      item.optString(HTML_URL),
+                                      item.optString(DESCRIPTION),
+                                      item.optInt(FORKS),
+                                      item.optBoolean(PRIVATE));
     }
 
     private HttpURLConnection createConnection(String urlQuery, RequestMethod requestMethod) throws IOException {
