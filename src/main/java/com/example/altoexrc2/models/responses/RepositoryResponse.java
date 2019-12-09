@@ -5,19 +5,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RepositoryResponse {
-    @JsonProperty("full_name")
+    public static final String FULL_NAME = "full_name";
+    public static final String HTML_URL = "html_url";
+    public static final String DESCRIPTION = "description";
+    public static final String FORKS = "forks";
+    public static final String PRIVATE = "private";
+
+    @JsonProperty(FULL_NAME)
     private String fullName;
 
-    @JsonProperty("html_url")
+    @JsonProperty(HTML_URL)
     private String htmlUrl;
 
-    @JsonProperty("description")
+    @JsonProperty(DESCRIPTION)
     private String description;
 
-    @JsonProperty("forks")
+    @JsonProperty(FORKS)
     private int forks;
 
-    @JsonProperty("private")
+    @JsonProperty(PRIVATE)
     private boolean isPrivate;
 
     public RepositoryResponse(String fullName, String htmlUrl, String description, int forks, boolean isPrivate) {

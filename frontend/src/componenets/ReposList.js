@@ -21,12 +21,12 @@ function ReposList(props) {
 function Repo(props) {
 	return (
 		<div className="row">
-			<div className="col">{props.item.fullName}</div>
-			<a href={props.item.htmlUrl} className="col">
+			<div className="col">{props.item.full_name}</div>
+			<a href={props.item.html_url} className="col">
 				Link
 			</a>
 			<div className="col">{props.item.forks}</div>
-			<div className="col">{props.item.isPrivate ? <FaLock /> : <FaLockOpen />}</div>
+			<div className="col">{props.item.private ? <FaLock /> : <FaLockOpen />}</div>
 			<div className="col">{props.item.description}</div>
 		</div>
 	);

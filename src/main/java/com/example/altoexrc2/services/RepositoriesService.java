@@ -6,16 +6,23 @@ import com.example.altoexrc2.models.responses.LanguageResponse;
 import com.example.altoexrc2.models.responses.RepositoryResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import org.apache.commons.io.IOUtils;
+import org.apache.tomcat.util.json.JSONParser;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.example.altoexrc2.models.responses.RepositoryResponse.*;
 
 @Service
 public class RepositoriesService {
@@ -62,8 +69,11 @@ public class RepositoriesService {
 
             conn = createConnection(queryUrl, RequestMethod.GET);
             inputStream = conn.getInputStream();
+            JSONObject jsonObject = new JSONObject(IOUtils.toString(inputStream));
 
-            return mapper.readValue(inputStream, new TypeReference<List<RepositoryResponse>>() {});
+            jsonObject.getJSONArray("items").forEach(item -> lstToReturn.add(createRepositoryResponse((JSONObject) item)));
+
+            return lstToReturn;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,7 +89,15 @@ public class RepositoriesService {
             if (conn != null) conn.disconnect();
         }
 
-        return null;
+        return lstToReturn;
+    }
+
+    private RepositoryResponse createRepositoryResponse(JSONObject item) {
+        return new RepositoryResponse(item.getString(FULL_NAME),
+                                      item.getString(HTML_URL),
+                                      item.getString(DESCRIPTION),
+                                      item.getInt(FORKS),
+                                      item.getBoolean(PRIVATE));
     }
 
     private HttpURLConnection createConnection(String urlQuery, RequestMethod requestMethod) throws IOException {
