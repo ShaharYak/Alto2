@@ -9,6 +9,7 @@ function App() {
 	const [repositories, setRepositories] = useState([]);
 
 	const onClickSearch = payload => {
+		// CR: No error handling?
 		axios.post(`http://localhost:8080/search/`, payload).then(response => setRepositories(response.data));
 	};
 

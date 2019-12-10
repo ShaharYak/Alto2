@@ -7,6 +7,7 @@ export default function Search(props) {
 	const [language, setLanguage] = useState('');
 
 	useEffect(() => {
+		// CR: No error handling
 		axios.get(`http://localhost:8080/languages/`).then(response => {
 			const list = response.data.map(language => (
 				<option key={language} value={language}>

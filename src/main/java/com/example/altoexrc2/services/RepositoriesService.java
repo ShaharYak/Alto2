@@ -32,6 +32,7 @@ public class RepositoriesService {
         HttpURLConnection conn = null;
         InputStream inputStream = null;
 
+        // CR: Most of this code is repeating and could be factored out
         try {
             String queryUrl = "https://api.github.com/languages";
             conn = createConnection(queryUrl, RequestMethod.GET);
@@ -41,6 +42,7 @@ public class RepositoriesService {
                     .stream().map(LanguageResponse::getName).collect(Collectors.toList());
 
         } catch (Exception e) {
+            // CR: Why swallow the error? Why not return an error to the frontend to let the user know
             e.printStackTrace();
         }
         finally {
@@ -62,9 +64,14 @@ public class RepositoriesService {
         InputStream inputStream = null;
         List<RepositoryResponse> lstToReturn = new ArrayList<>();
 
+        // CR: Most of this code is repeating and could be factored out
         try {
             String queryUrl =
+            // CR: Why are you using constant date? Last six months is from whenever this code is executed, not from when the code is written.
+            // CR: Even though the task provides some specification about the search, why not make it configurable and then set some defaults at
+            // CR: the aplication entry. This would make it more flexible at minimum price.
                     String.format("https://api.github.com/search/repositories?q=stars:>=%d+language:%s+pushed:2019-06-10+license:mit&order=desc",
+                    // https://github.com/search?utf8=%E2%9C%93&q=stars%3A%3E%3D10+pushed%3A2019-06-10+language%3AJavaScript+license%3Amit
                             request.getMinStarsCount(), request.getLanguage());
 
             conn = createConnection(queryUrl, RequestMethod.GET);

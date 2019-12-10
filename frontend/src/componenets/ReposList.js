@@ -2,6 +2,7 @@ import React from 'react';
 import { FaLockOpen, FaLock } from 'react-icons/fa';
 
 function ReposList(props) {
+	// CR: React requires a 'key' property when mapping. You can see the error in the browser console.
 	const repos = props.repos.slice(props.first, props.last).map(repo => <Repo item={repo} />);
 
 	return (

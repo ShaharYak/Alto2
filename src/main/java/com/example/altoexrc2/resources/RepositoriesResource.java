@@ -25,4 +25,6 @@ public class RepositoriesResource {
     public List<String> searchRepositories() {
         return repositoriesService.getAllLanguage();
     }
+
+    // CR: How can I search filter by issues count as required by the task?
 }
